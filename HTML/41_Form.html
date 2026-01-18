@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>HTML Forms</title>
+</head>
+
+<body>
+
+    <form action="/action_page.php">
+        <label for="fname">First name:</label><br>
+        <input type="text" id="fname" name="fname" value="Nghiêm"><br>
+
+        <label for="lname">Last name:</label><br>
+        <input type="text" id="lname" name="lname" value="Thành Long"><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <form>
+        <input type="radio" id="html" name="fav_language" value="HTML">
+        <label for="html">HTML</label><br>
+
+        <input type="radio" id="css" name="fav_language" value="CSS">
+        <label for="css">CSS</label><br>
+
+        <input type="radio" id="js" name="fav_language" value="JavaScript">
+        <label for="js">JavaScript</label>
+    </form>
+
+    <form>
+        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+        <label for="vehicle1">Nghiêm</label><br>
+
+        <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+        <label for="vehicle2">Thành</label><br>
+
+        <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+        <label for="vehicle3">Long</label>
+    </form>
+
+    <form>
+        <label for="cars">Choose a car:</label>
+        <select id="cars" name="cars">
+            <option value="volvo">Nghiêm</option>
+            <option value="saab">Thành</option>
+            <option value="fiat">Long</option>
+        </select>
+    </form>
+
+    <form>
+        <textarea name="message" rows="5" cols="30">
+Nghiêm Thành Long 2221050190
+        </textarea>
+    </form>
+
+    <form>
+        <button type="button" onclick="alert('Nghiem Thanh Long')">
+            Click Me
+        </button>
+    </form>
+
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>HTML Input Form Attributes</title>
+</head>
+
+<body>
+
+    <form id="form1" action="/action_page.php">
+        <input type="text" name="fname" value="Nghiêm Thành Long">
+        <input type="submit" value="Submit">
+    </form>
+
+    <input type="text" name="lname" value="Nghiem Thanh Long" form="form1">
+
+    <form action="/action_page.php">
+        <input type="submit" value="Submit normally">
+        <input type="submit" formaction="/action_page2.php" value="Submit with formaction">
+    </form>
+
+    <form action="/action_page.php" method="get">
+        <input type="submit" value="GET">
+        <input type="submit" formmethod="post" value="POST">
+    </form>
+
+    <form action="/action_page.php">
+        <input type="submit" value="Default enctype">
+        <input type="submit" formenctype="multipart/form-data" value="Multipart enctype">
+    </form>
+
+    <form action="/action_page.php">
+        <input type="submit" value="Same tab">
+        <input type="submit" formtarget="_blank" value="New tab">
+    </form>
+
+    <form action="/action_page.php">
+        <input type="email" name="email" required>
+        <input type="submit" value="Validate">
+        <input type="submit" formnovalidate value="No validate">
+    </form>
+
+    <form action="/action_page.php">
+        <input type="image" src="https://www.w3schools.com/html/img_submit.gif" alt="Submit" width="48" height="48">
+    </form>
+
+    <form action="/action_page.php">
+        <input type="file" name="myfile">
+        <input type="submit" value="Submit">
+    </form>
+
+    <form action="/action_page.php">
+        <input type="text" name="mssv" value="2221050190" disabled>
+        <input type="submit" value="Submit">
+    </form>
+
+</body>
+
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>HTML Form Elements</title>
+</head>
+
+<body>
+
+    <form action="/action_page.php">
+        <label for="fname">First name:</label><br>
+        <input type="text" id="fname" name="fname" value="Nghiêm"><br><br>
+
+        <label for="lname">Last name:</label><br>
+        <input type="text" id="lname" name="lname" value="Thành Long"><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <form>
+        <label for="cars">Choose a car:</label>
+        <select id="cars" name="cars">
+            <option value="volvo">Nghiêm</option>
+            <option value="saab">Thành</option>
+            <option value="fiat">Long</option>
+        </select>
+    </form>
+
+    <form>
+        <textarea name="message" rows="5" cols="30">
+Nghiêm Thành Long 2221050190
+        </textarea>
+    </form>
+
+    <form>
+        <button type="button">Nghiêm Thành Long</button>
+    </form>
+
+    <form>
+        <fieldset>
+            <legend>Nghiêm Thành Long</legend>
+
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email" value="nghiem@example.com"><br><br>
+
+            <label for="mssv">MSSV:</label><br>
+            <input type="text" id="mssv" name="mssv" value="2221050190">
+        </fieldset>
+    </form>
+
+    <form>
+        <input list="names" name="name">
+        <datalist id="names">
+            <option value="Nghiêm">
+            <option value="Thành">
+            <option value="Long">
+        </datalist>
+    </form>
+
+    <form>
+        <output name="result">2221050190</output>
+    </form>
+
+</body>
+
+</html>

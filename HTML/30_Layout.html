@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>HTML Layout</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        .header {
+            background-color: #f1f1f1;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .topnav {
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        .topnav a {
+            float: left;
+            display: block;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .topnav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .row {
+            display: flex;
+        }
+
+        .column {
+            flex: 33.33%;
+            padding: 15px;
+        }
+
+        .footer {
+            background-color: #f1f1f1;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>Nghiêm Thành Long</h1>
+    </div>
+
+    <div class="topnav">
+        <a href="#">Nghiem</a>
+        <a href="#">Thanh</a>
+        <a href="#">Long</a>
+    </div>
+
+    <div class="row">
+        <div class="column">Nghiêm</div>
+        <div class="column">Thành</div>
+        <div class="column">Long 2221050190</div>
+    </div>
+
+    <div class="footer">
+        <p>Nghiêm Thành Long</p>
+    </div>
+
+</body>
+
+</html>

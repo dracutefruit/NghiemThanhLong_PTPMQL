@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>HTML Responsive</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .menu {
+            float: left;
+            width: 20%;
+        }
+
+        .menu a {
+            background-color: #e5e5e5;
+            padding: 8px;
+            margin-top: 7px;
+            display: block;
+            width: 100%;
+            color: black;
+        }
+
+        .main {
+            float: left;
+            width: 60%;
+            padding: 0 20px;
+        }
+
+        .right {
+            background-color: #e5e5e5;
+            float: left;
+            width: 20%;
+            padding: 15px;
+            margin-top: 7px;
+        }
+
+        @media only screen and (max-width: 620px) {
+
+            .menu,
+            .main,
+            .right {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="menu">
+        <a href="#">Nghiêm</a>
+        <a href="#">Thành</a>
+        <a href="#">Long</a>
+    </div>
+
+    <div class="main">
+        <h2>Nghiêm Thành Long</h2>
+        <p>2221050190</p>
+    </div>
+
+    <div class="right">
+        <p>Nghiem Thanh Long</p>
+    </div>
+
+</body>
+
+</html>

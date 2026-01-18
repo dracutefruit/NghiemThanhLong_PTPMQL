@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>HTML Form Attributes</title>
+</head>
+
+<body>
+
+    <form action="/action_page.php" method="get">
+        <label for="fname">First name:</label><br>
+        <input type="text" id="fname" name="fname" value="Nghiêm"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <form action="/action_page.php" target="_blank">
+        <input type="text" name="lname" value="Thành Long">
+        <input type="submit" value="Submit">
+    </form>
+
+    <form action="/action_page.php" autocomplete="on">
+        <input type="text" name="fullname" value="Nghiêm Thành Long">
+        <input type="submit" value="Submit">
+    </form>
+
+    <form action="/action_page.php" novalidate>
+        <input type="email" name="email" value="nghiem@example.com">
+        <input type="submit" value="Submit">
+    </form>
+
+    <form action="/action_page.php" method="post">
+        <input type="text" name="mssv" value="2221050190">
+        <input type="submit" value="Submit">
+    </form>
+
+</body>
+
+</html>

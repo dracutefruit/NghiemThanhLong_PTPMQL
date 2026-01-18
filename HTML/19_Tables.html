@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>HTML Tables</title>
+
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        .styled tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .styled tr:hover {
+            background-color: #ddd;
+        }
+
+        .radius th,
+        .radius td {
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HTML Tables -->
+    <table>
+        <tr>
+            <td>Nghiêm Thành Long</td>
+            <td>2221050190</td>
+        </tr>
+    </table>
+
+    <!-- Table Borders -->
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>MSSV</th>
+        </tr>
+        <tr>
+            <td>Nghiêm Thành Long</td>
+            <td>2221050190</td>
+        </tr>
+    </table>
+
+    <!-- Table Sizes -->
+    <table style="width:50%">
+        <tr>
+            <th style="width:70%">Name</th>
+            <th>MSSV</th>
+        </tr>
+        <tr>
+            <td>Nghiêm Thành Long</td>
+            <td>2221050190</td>
+        </tr>
+    </table>
+
+    <!-- Table Headers -->
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>MSSV</th>
+        </tr>
+        <tr>
+            <td>Nghiêm Thành Long</td>
+            <td>2221050190</td>
+        </tr>
+    </table>
+
+    <!-- Padding & Spacing -->
+    <table style="border-spacing: 10px;">
+        <tr>
+            <th>Name</th>
+            <th>MSSV</th>
+        </tr>
+        <tr>
+            <td>Nghiêm Thành Long</td>
+            <td>2221050190</td>
+        </tr>
+    </table>
+
+    <!-- Colspan & Rowspan -->
+    <table>
+        <tr>
+            <th colspan="2">Name</th>
+        </tr>
+        <tr>
+            <td>Nghiêm</td>
+            <td>Thành Long</td>
+        </tr>
+        <tr>
+            <th rowspan="2">MSSV</th>
+            <td>222105</td>
+        </tr>
+        <tr>
+            <td>0190</td>
+        </tr>
+    </table>
+
+    <!-- Table Styling -->
+    <table class="styled radius">
+        <tr>
+            <th>Name</th>
+            <th>MSSV</th>
+        </tr>
+        <tr>
+            <td>Nghiêm Thành Long</td>
+            <td>2221050190</td>
+        </tr>
+        <tr>
+            <td>Nghiem Thanh Long</td>
+            <td>2221050190</td>
+        </tr>
+    </table>
+
+    <!-- Table Colgroup -->
+    <table>
+        <colgroup>
+            <col span="1" style="background-color:#D6EEEE">
+            <col span="1" style="background-color:#FFE4C4">
+        </colgroup>
+        <tr>
+            <th>Name</th>
+            <th>MSSV</th>
+        </tr>
+        <tr>
+            <td>Nghiêm Thành Long</td>
+            <td>2221050190</td>
+        </tr>
+    </table>
+
+</body>
+
+</html>
