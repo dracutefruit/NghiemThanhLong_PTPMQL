@@ -8,6 +8,12 @@ namespace MvcMovie.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+        [HttpPost]
+        public IActionResult Index(string FullName)
+        {
+            ViewBag.Message = "Xin chào " + FullName;
+            return View();
         } 
         // GET: /HelloWorld/Welcome/ 
 
