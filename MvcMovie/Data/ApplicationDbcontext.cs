@@ -1,3 +1,12 @@
-using Microsoft.EntityFrameWorkCore;
-namespace MvcMovie.Models;
-public DbSet<Student> Student { get; set;}
+using Microsoft.EntityFrameworkCore;
+using MvcMovie.Models.Entities;
+
+namespace MvcMovie.Data
+{
+public class ApplicationDbContext : DbContext
+{
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+    {}
+    public DbSet<Student> Student { get; set;}
+}
+}
