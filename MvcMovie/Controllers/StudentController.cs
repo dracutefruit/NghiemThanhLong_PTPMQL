@@ -27,17 +27,43 @@ namespace MvcMovie.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        //
-        public IActionResult Student()
+        public async Task<IActionResult> Edit(string id)
         {
-            return View();
+            var student = await _context.Students.FindAsync(id);
+            return View(student);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(Student std)
+        {
+            _context.Students.Update(std);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Delete(string id)
+        {
+            var student = await _context.Students.FindAsync(id);
+            return View(student);
         }
 
         [HttpPost]
-        public IActionResult Student(string FullName, string StudentCode)
+        public async Task<IActionResult> Delete(Student std)
         {
-            ViewBag.Message = "Xin chào " + FullName + " " + StudentCode;
-            return View();
+            _context.Students.Remove(std);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
+
+        // public IActionResult Student()
+        // {
+        //     return View();
+        // }
+
+        // [HttpPost]
+        // public IActionResult Student(string FullName, string StudentCode)
+        // {
+        //     ViewBag.Message = "Xin chào " + FullName + " " + StudentCode;
+        //     return View();
+        // }
     }
 }

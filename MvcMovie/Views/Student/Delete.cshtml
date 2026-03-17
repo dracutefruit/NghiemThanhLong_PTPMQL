@@ -1,0 +1,14 @@
+@model MvcMovie.Models.Entities.Student
+<h2>Delete Student</h2>
+<h4>Ban co chac muon xoa?</h4>
+
+<div>
+    <p><strong>Ma SV:</strong> @Model.StudentCode</p>
+    <p><strong>Ho Ten:</strong> @Model.FullName</p>
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="StudentCode" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
