@@ -1,0 +1,90 @@
+@model Order
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Order</h4>
+<hr>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="form-group">
+                <label for="OrderDate" asp-for="OrderDate" class="control-label"></label>
+                <input value="@DateTime.Now.ToString("dd/MM/yyyy")" class="form-control" readonly />
+                <span asp-validation-for="OrderDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="CustomerId" asp-for="CustomerId" class="control-label"></label>
+                <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId">
+                    <option value="">- Select Customer -</option>
+                </select>
+            </div>
+            <hr>
+
+            <h4>Product</h4>
+            <table class="table" id="productTable">
+                <tr>
+                    <th>ProductName</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th></th>
+                </tr>
+            </table>
+
+            <button type="button" onclick="addRow()">+</button>
+            <hr>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<script>
+    let index = 0;
+    function addRow() {
+        let row = `
+        <tr>
+            <td>
+                <select name="OrderDetails[${index}].ProductId" onchange="updatePrice(this)">
+                    ${getProducts()}
+                </select>
+            </td>
+            <td>
+                <input type="number" style="width: 70px;" name="OrderDetails[${index}].Quantity" value="1" min="1"/>
+            </td>
+            <td>
+                <button type="button" onclick="this.closest('tr').remove()">-</button>
+            </td>
+        </tr>`;
+
+        document.getElementById("productTable").insertAdjacentHTML("beforeend", row);
+        index++;
+    }
+
+    function getProducts() {
+        let options = '';
+        @foreach (var p in ViewBag.Products)
+            {
+                @:options += `<option value="@p.ProductId">@p.ProductName</option>`;
+        }
+        return options;
+    }
+</script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
