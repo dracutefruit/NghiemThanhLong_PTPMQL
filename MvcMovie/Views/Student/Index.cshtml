@@ -8,12 +8,20 @@
 
 <p>
     <a asp-action="Create">Create New</a>
+    <hr>
+    <a class="btn btn-success" asp-action="Download">Download</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.StudentCode)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FacultyName)
@@ -25,7 +33,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.StudentCode)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FacultyName)

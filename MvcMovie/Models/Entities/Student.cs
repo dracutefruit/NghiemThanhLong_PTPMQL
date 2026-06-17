@@ -12,6 +12,8 @@ namespace MvcMovie.Models.Entities;
     [Required(ErrorMessage = "Ten khong duoc de trong")]
     public required string FullName { get; set;}
 
+    public string? Address { get; set; }
+
     public string? FacultyId { get; set; }
     [ForeignKey("FacultyId")]
     public Faculty? Faculty {  get; set; }

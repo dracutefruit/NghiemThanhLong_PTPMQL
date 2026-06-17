@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using MvcMovie.Data;
 using MvcMovie.Models.Entities;
 using MvcMovie.Models.ViewModels;
+using MvcMovie.Models.Process;
 
 namespace MvcMovie.Controllers
 {
@@ -15,9 +17,96 @@ namespace MvcMovie.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+        private ExcelProcess _excelProcess = new ExcelProcess(); 
+
         public StudentController(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        public IActionResult Download()
+        {
+            ExcelPackage.License.SetNonCommercialPersonal("Long");
+
+            // Name the file when downloading
+            var fileName = "YourFileName" + ".xlsx";
+
+            using (ExcelPackage excelPackage = new ExcelPackage())
+            {
+                ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Sheet 1");
+
+                // add some text to cell A1
+                worksheet.Cells["A1"].Value = "StudentCode";
+                worksheet.Cells["B1"].Value = "FullName";
+                worksheet.Cells["C1"].Value = "Address";
+
+                // get all Person
+                var personList = _context.Students.ToList();
+
+                // fill data to worksheet
+                worksheet.Cells["A2"].LoadFromCollection(personList);
+
+                var stream = new MemoryStream(excelPackage.GetAsByteArray());
+
+                // download file
+                return File(
+                    stream,
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    fileName
+                );
+            }
+        }
+
+        public async Task<IActionResult> Upload() {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Upload(IFormFile file) {
+            if (file!=null)
+            {
+                string fileExtension = Path.GetExtension(file.FileName);
+                if (fileExtension != ".xls" && fileExtension != ".xlsx")
+                {
+                    ModelState.AddModelError("", "Please choose excel file to upload!");
+                }
+                else
+                {
+                    //rename file when upload to server
+                    var fileName = DateTime.Now.ToShortTimeString() + fileExtension;
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory() + "/Uploads/Excels", fileName);
+                    var fileLocation = new FileInfo(filePath).ToString();
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        //save file to server
+                        await file.CopyToAsync(stream);
+
+                        //read data from excel file fill DataTable
+                        var dt = _excelProcess.ExcelToDataTable(fileLocation);
+
+                        //using for loop to read data from dt
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            //create new Student object
+                            var sc = new Student()
+                            {
+                                //set value to attributes
+                                StudentCode = dt.Rows[i][0].ToString(),
+                                FullName = dt.Rows[i][1].ToString(),
+                                Address = dt.Rows[i][2].ToString(),
+                            };
+                            //add object to context
+                            _context.Add(sc);
+                        }
+
+                        await _context.SaveChangesAsync();
+
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
+            }
+            return View();
         }
 
         // GET: Student
@@ -28,6 +117,7 @@ namespace MvcMovie.Controllers
                             {
                                 StudentCode = s.StudentCode,
                                 FullName = s.FullName,
+                                Address = s.Address,
                                 FacultyName = s.Faculty!.FacultyName
                             })
                             .ToListAsync();
@@ -98,7 +188,7 @@ namespace MvcMovie.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("StudentCode,FullName,FacultyId")] Student student)
+        public async Task<IActionResult> Edit(string id, [Bind("StudentCode,FullName,Address,FacultyId")] Student student)
         {
             if (id != student.StudentCode)
             {
@@ -109,7 +199,16 @@ namespace MvcMovie.Controllers
             {
                 try
                 {
-                    _context.Update(student);
+                    var hehe = await _context.Students.FindAsync(id);
+
+                    if (hehe == null)
+                    {
+                        return NotFound();
+                    }
+                    hehe.FullName = student.FullName;
+                    hehe.Address = student.Address;
+                    hehe.FacultyId = student.FacultyId;
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -125,7 +224,7 @@ namespace MvcMovie.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FacultyId"] = new SelectList(_context.Faculties, "FacultyId", "FacultyName", student.FacultyId); /**/
+            ViewData["FacultyId"] = new SelectList(_context.Faculties, "FacultyId", "FacultyName", student.FacultyId);
             return View(student);
         }
 

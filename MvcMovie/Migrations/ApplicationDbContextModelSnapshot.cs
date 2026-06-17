@@ -217,6 +217,9 @@ namespace MvcMovie.Migrations
                     b.Property<string>("StudentCode")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Address")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("FacultyId")
                         .HasColumnType("TEXT");
 
@@ -288,6 +291,7 @@ namespace MvcMovie.Migrations
 
                     b.Property<string>("ProductName")
                         .IsRequired()
+                        .HasMaxLength(150)
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Stock")

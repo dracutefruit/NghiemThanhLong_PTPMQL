@@ -4,6 +4,7 @@ namespace MvcMovie.Models.ViewModels
     {
         public string StudentCode { get; set; } = default!;
         public string FullName { get; set; } = default!;
+        public string Address { get; set; } = default!;
         public string FacultyName { get; set; } = default!;
     }
 }
