@@ -1,0 +1,59 @@
+@model GoodsIssue
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+<div>
+    <h4>Order</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IssueDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IssueDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Supplier)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Supplier.SupplierName)
+        </dd>
+    </dl>
+    <hr>
+
+    <h4>Products</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>DeviceName</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.GoodsIssueDetails)
+            {
+                <tr>
+                    <td>@item.Device?.DeviceName</td>
+                    <td>@item.Quantity</td>
+                    <td>$@item.Device?.Price.ToString("N0")</td>
+                    <td>$@((item.Quantity * item.Price).ToString(format: "N0"))</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <h5>
+        Total Price:
+        $@Model.GoodsIssueDetails.Sum(x => x.Quantity * x.Price).ToString("N0")
+    </h5>
+
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -17,7 +17,7 @@ namespace MvcMovie.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        private ExcelProcess _excelProcess = new ExcelProcess(); 
+        private ExcelProcess _excelProcess = new ExcelProcess();
 
         public StudentController(ApplicationDbContext context)
         {
@@ -57,14 +57,16 @@ namespace MvcMovie.Controllers
             }
         }
 
-        public async Task<IActionResult> Upload() {
+        public async Task<IActionResult> Upload()
+        {
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Upload(IFormFile file) {
-            if (file!=null)
+        public async Task<IActionResult> Upload(IFormFile file)
+        {
+            if (file != null)
             {
                 string fileExtension = Path.GetExtension(file.FileName);
                 if (fileExtension != ".xls" && fileExtension != ".xlsx")

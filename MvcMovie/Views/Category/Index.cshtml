@@ -1,4 +1,4 @@
-@model IEnumerable<DeviceCategory>
+@model IEnumerable<Category>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,14 +9,15 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<form asp-action="Index" method="get">
+    <input type="text" name="searchString" />
+    <button type="submit">Search</button>
+</form>
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.CategoryName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
             </th>
             <th></th>
         </tr>
@@ -26,9 +27,6 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.CategoryName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

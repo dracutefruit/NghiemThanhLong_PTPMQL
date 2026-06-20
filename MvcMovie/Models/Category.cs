@@ -1,13 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 
-public class DeviceCategory
+public class Category
 {
     public int Id { get; set; }
 
     [Required]
-    public string CategoryName { get; set; }
-
-    public string? Description { get; set; }
+    [StringLength(100)]
+    public string? CategoryName { get; set; }
 
     public ICollection<Device>? Devices { get; set; }
 }

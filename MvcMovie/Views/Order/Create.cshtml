@@ -32,7 +32,6 @@
                 <tr>
                     <th>ProductName</th>
                     <th>Quantity</th>
-                    <th>Price</th>
                     <th></th>
                 </tr>
             </table>
@@ -57,7 +56,7 @@
         let row = `
         <tr>
             <td>
-                <select name="OrderDetails[${index}].ProductId" onchange="updatePrice(this)">
+                <select name="OrderDetails[${index}].ProductId">
                     ${getProducts()}
                 </select>
             </td>

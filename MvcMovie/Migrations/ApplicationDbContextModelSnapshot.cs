@@ -17,6 +17,22 @@ namespace MvcMovie.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.3");
 
+            modelBuilder.Entity("Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("Customer", b =>
                 {
                     b.Property<int>("CustomerId")
@@ -46,156 +62,145 @@ namespace MvcMovie.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("DeviceCategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("DeviceCode")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("DeviceName")
                         .IsRequired()
+                        .HasMaxLength(255)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("StockQuantity")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("SupplierId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Unit")
+                    b.Property<decimal>("Price")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("Stock")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DeviceCategoryId");
-
-                    b.HasIndex("SupplierId");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Devices");
                 });
 
-            modelBuilder.Entity("DeviceCategory", b =>
+            modelBuilder.Entity("GoodsIssue", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("CategoryName")
+                    b.Property<string>("IssueCode")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DeviceCategories");
-                });
-
-            modelBuilder.Entity("ExportReceipt", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("ExportDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ReceiverName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<decimal>("TotalAmount")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ExportReceipts");
-                });
-
-            modelBuilder.Entity("ExportReceiptDetail", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("DeviceId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<decimal>("ExportPrice")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("ExportReceiptId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DeviceId");
-
-                    b.HasIndex("ExportReceiptId");
-
-                    b.ToTable("ExportReceiptDetails");
-                });
-
-            modelBuilder.Entity("ImportReceipt", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("ImportDate")
+                    b.Property<DateTime>("IssueDate")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("SupplierId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("TotalAmount")
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
                     b.HasIndex("SupplierId");
 
-                    b.ToTable("ImportReceipts");
+                    b.ToTable("GoodsIssues");
                 });
 
-            modelBuilder.Entity("ImportReceiptDetail", b =>
+            modelBuilder.Entity("GoodsIssueDetail", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("DeviceId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("ImportPrice")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("ImportReceiptId")
+                    b.Property<int>("GoodsIssueId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("GoodsReceiptId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("SupplierId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DeviceId");
 
-                    b.HasIndex("ImportReceiptId");
+                    b.HasIndex("GoodsIssueId");
 
-                    b.ToTable("ImportReceiptDetails");
+                    b.HasIndex("GoodsReceiptId");
+
+                    b.HasIndex("SupplierId");
+
+                    b.ToTable("GoodsIssueDetails");
+                });
+
+            modelBuilder.Entity("GoodsReceipt", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ReceiptCode")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("ReceiptDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("SupplierId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SupplierId");
+
+                    b.ToTable("GoodsReceipts");
+                });
+
+            modelBuilder.Entity("GoodsReceiptDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("DeviceId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("GoodsIssueId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("GoodsReceiptId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("SupplierId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DeviceId");
+
+                    b.HasIndex("GoodsIssueId");
+
+                    b.HasIndex("GoodsReceiptId");
+
+                    b.HasIndex("SupplierId");
+
+                    b.ToTable("GoodsReceiptDetails");
                 });
 
             modelBuilder.Entity("MvcMovie.Models.Entities.Faculty", b =>
@@ -308,17 +313,9 @@ namespace MvcMovie.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Address")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Phone")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("SupplierName")
                         .IsRequired()
+                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -328,46 +325,19 @@ namespace MvcMovie.Migrations
 
             modelBuilder.Entity("Device", b =>
                 {
-                    b.HasOne("DeviceCategory", "DeviceCategory")
+                    b.HasOne("Category", "Category")
                         .WithMany("Devices")
-                        .HasForeignKey("DeviceCategoryId")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Supplier", "Supplier")
-                        .WithMany("Devices")
-                        .HasForeignKey("SupplierId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DeviceCategory");
-
-                    b.Navigation("Supplier");
+                    b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("ExportReceiptDetail", b =>
-                {
-                    b.HasOne("Device", "Device")
-                        .WithMany("ExportReceiptDetails")
-                        .HasForeignKey("DeviceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ExportReceipt", "ExportReceipt")
-                        .WithMany("ExportReceiptDetails")
-                        .HasForeignKey("ExportReceiptId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Device");
-
-                    b.Navigation("ExportReceipt");
-                });
-
-            modelBuilder.Entity("ImportReceipt", b =>
+            modelBuilder.Entity("GoodsIssue", b =>
                 {
                     b.HasOne("Supplier", "Supplier")
-                        .WithMany("ImportReceipts")
+                        .WithMany()
                         .HasForeignKey("SupplierId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -375,23 +345,69 @@ namespace MvcMovie.Migrations
                     b.Navigation("Supplier");
                 });
 
-            modelBuilder.Entity("ImportReceiptDetail", b =>
+            modelBuilder.Entity("GoodsIssueDetail", b =>
                 {
                     b.HasOne("Device", "Device")
-                        .WithMany("ImportReceiptDetails")
+                        .WithMany("GoodsIssueDetails")
                         .HasForeignKey("DeviceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ImportReceipt", "ImportReceipt")
-                        .WithMany("ImportReceiptDetails")
-                        .HasForeignKey("ImportReceiptId")
+                    b.HasOne("GoodsIssue", "GoodsIssue")
+                        .WithMany("GoodsIssueDetails")
+                        .HasForeignKey("GoodsIssueId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("GoodsReceipt", null)
+                        .WithMany("GoodsIssueDetails")
+                        .HasForeignKey("GoodsReceiptId");
+
+                    b.HasOne("Supplier", null)
+                        .WithMany("GoodsIssueDetails")
+                        .HasForeignKey("SupplierId");
+
                     b.Navigation("Device");
 
-                    b.Navigation("ImportReceipt");
+                    b.Navigation("GoodsIssue");
+                });
+
+            modelBuilder.Entity("GoodsReceipt", b =>
+                {
+                    b.HasOne("Supplier", "Supplier")
+                        .WithMany("GoodsReceipts")
+                        .HasForeignKey("SupplierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Supplier");
+                });
+
+            modelBuilder.Entity("GoodsReceiptDetail", b =>
+                {
+                    b.HasOne("Device", "Device")
+                        .WithMany("GoodsReceiptDetails")
+                        .HasForeignKey("DeviceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GoodsIssue", null)
+                        .WithMany("GoodsReceiptDetails")
+                        .HasForeignKey("GoodsIssueId");
+
+                    b.HasOne("GoodsReceipt", "GoodsReceipts")
+                        .WithMany("GoodsReceiptDetails")
+                        .HasForeignKey("GoodsReceiptId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Supplier", null)
+                        .WithMany("GoodsReceiptDetails")
+                        .HasForeignKey("SupplierId");
+
+                    b.Navigation("Device");
+
+                    b.Navigation("GoodsReceipts");
                 });
 
             modelBuilder.Entity("MvcMovie.Models.Entities.Student", b =>
@@ -433,6 +449,11 @@ namespace MvcMovie.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Category", b =>
+                {
+                    b.Navigation("Devices");
+                });
+
             modelBuilder.Entity("Customer", b =>
                 {
                     b.Navigation("Orders");
@@ -440,24 +461,23 @@ namespace MvcMovie.Migrations
 
             modelBuilder.Entity("Device", b =>
                 {
-                    b.Navigation("ExportReceiptDetails");
+                    b.Navigation("GoodsIssueDetails");
 
-                    b.Navigation("ImportReceiptDetails");
+                    b.Navigation("GoodsReceiptDetails");
                 });
 
-            modelBuilder.Entity("DeviceCategory", b =>
+            modelBuilder.Entity("GoodsIssue", b =>
                 {
-                    b.Navigation("Devices");
+                    b.Navigation("GoodsIssueDetails");
+
+                    b.Navigation("GoodsReceiptDetails");
                 });
 
-            modelBuilder.Entity("ExportReceipt", b =>
+            modelBuilder.Entity("GoodsReceipt", b =>
                 {
-                    b.Navigation("ExportReceiptDetails");
-                });
+                    b.Navigation("GoodsIssueDetails");
 
-            modelBuilder.Entity("ImportReceipt", b =>
-                {
-                    b.Navigation("ImportReceiptDetails");
+                    b.Navigation("GoodsReceiptDetails");
                 });
 
             modelBuilder.Entity("MvcMovie.Models.Entities.Faculty", b =>
@@ -477,9 +497,11 @@ namespace MvcMovie.Migrations
 
             modelBuilder.Entity("Supplier", b =>
                 {
-                    b.Navigation("Devices");
+                    b.Navigation("GoodsIssueDetails");
 
-                    b.Navigation("ImportReceipts");
+                    b.Navigation("GoodsReceiptDetails");
+
+                    b.Navigation("GoodsReceipts");
                 });
 #pragma warning restore 612, 618
         }

@@ -19,10 +19,15 @@ namespace MvcMovie.Controllers
         }
 
         // GET: Device
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            var applicationDbContext = _context.Devices.Include(d => d.DeviceCategory).Include(d => d.Supplier);
-            return View(await applicationDbContext.ToListAsync());
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                var device = _context.Devices.AsQueryable();
+                device = device.Where(d => d.DeviceName.ToLower().Contains(searchString.ToLower()));
+                return View(await device.ToListAsync());
+            }
+            return View(await _context.Categories.ToListAsync());
         }
 
         // GET: Device/Details/5
@@ -34,8 +39,6 @@ namespace MvcMovie.Controllers
             }
 
             var device = await _context.Devices
-                .Include(d => d.DeviceCategory)
-                .Include(d => d.Supplier)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (device == null)
             {
@@ -48,8 +51,7 @@ namespace MvcMovie.Controllers
         // GET: Device/Create
         public IActionResult Create()
         {
-            ViewData["DeviceCategoryId"] = new SelectList(_context.DeviceCategories, "Id", "CategoryName");
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "SupplierName");
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "CategoryName");
             return View();
         }
 
@@ -58,7 +60,7 @@ namespace MvcMovie.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,DeviceCode,DeviceName,StockQuantity,Unit,Description,SupplierId,DeviceCategoryId")] Device device)
+        public async Task<IActionResult> Create([Bind("Id,DeviceName,CategoryId,Price,Stock")] Device device)
         {
             if (ModelState.IsValid)
             {
@@ -66,8 +68,7 @@ namespace MvcMovie.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DeviceCategoryId"] = new SelectList(_context.DeviceCategories, "Id", "CategoryName", device.DeviceCategoryId);
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "SupplierName", device.SupplierId);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "CategoryName", device.CategoryId);
             return View(device);
         }
 
@@ -84,8 +85,6 @@ namespace MvcMovie.Controllers
             {
                 return NotFound();
             }
-            ViewData["DeviceCategoryId"] = new SelectList(_context.DeviceCategories, "Id", "CategoryName", device.DeviceCategoryId);
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "SupplierName", device.SupplierId);
             return View(device);
         }
 
@@ -94,7 +93,7 @@ namespace MvcMovie.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,DeviceCode,DeviceName,StockQuantity,Unit,Description,SupplierId,DeviceCategoryId")] Device device)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,DeviceName,CategoryId,Price,Stock")] Device device)
         {
             if (id != device.Id)
             {
@@ -121,8 +120,6 @@ namespace MvcMovie.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DeviceCategoryId"] = new SelectList(_context.DeviceCategories, "Id", "CategoryName", device.DeviceCategoryId);
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "SupplierName", device.SupplierId);
             return View(device);
         }
 
@@ -135,8 +132,6 @@ namespace MvcMovie.Controllers
             }
 
             var device = await _context.Devices
-                .Include(d => d.DeviceCategory)
-                .Include(d => d.Supplier)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (device == null)
             {

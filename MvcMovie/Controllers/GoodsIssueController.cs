@@ -6,25 +6,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MvcMovie.Data;
+using NuGet.Protocol;
 
 namespace MvcMovie.Controllers
 {
-    public class DeviceCategoryController : Controller
+    public class GoodsIssueController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public DeviceCategoryController(ApplicationDbContext context)
+        public GoodsIssueController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: DeviceCategory
+        // GET: GoodsIssue
         public async Task<IActionResult> Index()
         {
-            return View(await _context.DeviceCategories.ToListAsync());
+            return View(await _context.GoodsIssues.Include(o => o.Supplier).ToListAsync());
         }
 
-        // GET: DeviceCategory/Details/5
+        // GET: GoodsIssue/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +33,54 @@ namespace MvcMovie.Controllers
                 return NotFound();
             }
 
-            var deviceCategory = await _context.DeviceCategories
+            var goodsIssue = await _context.GoodsIssues
+                .Include(o => o.Supplier)
+                .Include(o => o.GoodsIssueDetails)
+                    .ThenInclude(o => o.Device)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (deviceCategory == null)
+            if (goodsIssue == null)
             {
                 return NotFound();
             }
 
-            return View(deviceCategory);
+            return View(goodsIssue);
         }
 
-        // GET: DeviceCategory/Create
-        public IActionResult Create()
+        // GET: GoodsIssue/Create
+        public async Task<IActionResult> Create()
         {
+            ViewBag.SupplierId = new SelectList(_context.Suppliers, "Id", "SupplierName");
+            ViewBag.Devices = _context.Devices.ToList();
             return View();
         }
 
-        // POST: DeviceCategory/Create
+        // POST: GoodsIssue/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CategoryName,Description")] DeviceCategory deviceCategory)
+        public async Task<IActionResult> Create(GoodsIssue goodsIssue)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(deviceCategory);
+                goodsIssue.IssueDate = DateTime.Now;
+
+                foreach (var item in goodsIssue.GoodsIssueDetails)
+                {
+                    var hehe = await _context.Devices.FindAsync(item.DeviceId);
+                    item.Price = hehe.Price;
+                }
+
+                _context.Add(goodsIssue);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(deviceCategory);
+            ViewBag.Suppliers = new SelectList(_context.Suppliers, "Id", "SupplierName", goodsIssue.SupplierId);
+            ViewBag.Devices = _context.Devices.ToList();
+            return View(goodsIssue);
         }
 
-        // GET: DeviceCategory/Edit/5
+        // GET: GoodsIssue/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +88,22 @@ namespace MvcMovie.Controllers
                 return NotFound();
             }
 
-            var deviceCategory = await _context.DeviceCategories.FindAsync(id);
-            if (deviceCategory == null)
+            var goodsIssue = await _context.GoodsIssues.FindAsync(id);
+            if (goodsIssue == null)
             {
                 return NotFound();
             }
-            return View(deviceCategory);
+            return View(goodsIssue);
         }
 
-        // POST: DeviceCategory/Edit/5
+        // POST: GoodsIssue/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CategoryName,Description")] DeviceCategory deviceCategory)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,IssueCode,IssueDate")] GoodsIssue goodsIssue)
         {
-            if (id != deviceCategory.Id)
+            if (id != goodsIssue.Id)
             {
                 return NotFound();
             }
@@ -96,12 +112,12 @@ namespace MvcMovie.Controllers
             {
                 try
                 {
-                    _context.Update(deviceCategory);
+                    _context.Update(goodsIssue);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DeviceCategoryExists(deviceCategory.Id))
+                    if (!GoodsIssueExists(goodsIssue.Id))
                     {
                         return NotFound();
                     }
@@ -112,10 +128,10 @@ namespace MvcMovie.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(deviceCategory);
+            return View(goodsIssue);
         }
 
-        // GET: DeviceCategory/Delete/5
+        // GET: GoodsIssue/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,34 +139,34 @@ namespace MvcMovie.Controllers
                 return NotFound();
             }
 
-            var deviceCategory = await _context.DeviceCategories
+            var goodsIssue = await _context.GoodsIssues
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (deviceCategory == null)
+            if (goodsIssue == null)
             {
                 return NotFound();
             }
 
-            return View(deviceCategory);
+            return View(goodsIssue);
         }
 
-        // POST: DeviceCategory/Delete/5
+        // POST: GoodsIssue/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var deviceCategory = await _context.DeviceCategories.FindAsync(id);
-            if (deviceCategory != null)
+            var goodsIssue = await _context.GoodsIssues.FindAsync(id);
+            if (goodsIssue != null)
             {
-                _context.DeviceCategories.Remove(deviceCategory);
+                _context.GoodsIssues.Remove(goodsIssue);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DeviceCategoryExists(int id)
+        private bool GoodsIssueExists(int id)
         {
-            return _context.DeviceCategories.Any(e => e.Id == id);
+            return _context.GoodsIssues.Any(e => e.Id == id);
         }
     }
 }
